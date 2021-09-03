@@ -1,0 +1,178 @@
+# **GRIP : The Spark Foundation**
+
+# **Data Science & Business Analytics Internship**
+
+---
+
+
+
+# **Graduate Rotational Internship Program**
+
+**Name: Gaikwad Pawan Ramesh**
+
+# **Task 1: Prediction using Supervised ML**
+
+**Import Dataset : Numpy, Pandas, Matplotlib, Seaborn, scikit learn.**
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+import warnings as wg
+wg.filterwarnings('ignore')
+
+**Read Dataset from URL**
+
+url= 'http://bit.ly/w-data'
+data = pd.read_csv(url)
+print("Successfully Import Dataset")
+data
+
+**print First 5 record in dataset**
+
+data.head()
+
+**print last 5 record in dataset**
+
+data.tail()
+
+**Use describe() method we can see that percentiles,mean,std,max,count of given dataset**
+
+data.describe()
+
+**Full summary of our dataframe**
+
+data.info()
+
+**used to get a Series containing counts of unique values**
+
+data['Hours'].value_counts()
+
+data['Scores'].value_counts()
+
+**Used median() method we can see median in our dataset**
+
+data.median()
+
+**max() method find maximum value in our dataframe**
+
+data.max()
+
+**min() method find minimumvalue in our dataframe**
+
+data.min()
+
+**find shape of dataset**
+
+data.shape
+
+**Checking the missing values**
+
+data.isnull().sum()
+
+**find the correlation**
+
+data.corr()
+
+**how many columns in our dataset**
+
+data.columns
+
+# **Visualize Data**
+
+**Perforn box plot graph using Seaborn Libraries**
+
+plt.boxplot(data)
+plt.show()
+
+**perform a scatter plot graph**
+
+plt.xlabel('Hours',fontsize=15)
+plt.ylabel('Scores',fontsize=15)
+plt.title('Hours studied vs Score',fontsize=10)
+plt.scatter(data.Hours,data.Scores,color="red",marker="*")
+plt.show()
+
+
+# **"Scatter plot" indicate linear relationship as hours, your changes is high scoring**
+
+x = data.iloc[:,:-1].values
+y = data.iloc[:,1].values
+x
+
+y
+
+# **Preparing Data and splitting into train and test sets**
+
+from sklearn.model_selection import train_test_split
+x_test,x_train,y_test,y_train = train_test_split(x,y,random_state = 0,test_size = 0.2)
+
+## we have splitting out data using 80:20 RULE
+print('x train.shape',x_train.shape)
+print('x test.shape',x_test.shape)
+print('y train.shape',y_train.shape)
+print('y test.shape',y_test.shape)
+
+# **Training Model**
+
+from sklearn.linear_model import LinearRegression
+linreg=LinearRegression()
+
+## fit training data
+linreg.fit(x_train,y_train)
+print('Training our algorithm is end')
+
+
+## A0 is intercept and A1 is slope of line
+print('A0 =',linreg.intercept_,'\nA1 =',linreg.coef_)
+
+
+# **Plotting the line of regression**
+
+Y0 = linreg.intercept_ +linreg.coef_*x_train
+
+## predict score of data
+y_pred =linreg.predict(x_train)
+print(y_pred)
+
+
+y_train
+
+##test data
+plt.plot(x_test,y_pred,color='blue')
+plt.scatter(x_test,y_test,color="red",marker="+")
+plt.xlabel('Hours',fontsize=15)
+plt.ylabel('Scores',fontsize=15)
+plt.title('Regression line(test_set)',fontsize=10)
+plt.show()
+
+## **Test Data**
+
+## test data
+plt.scatter(x_train,y_train,color="green",marker="+")
+plt.plot(x_train,Y0,color='orange')
+plt.xlabel('Hours',fontsize=15)
+plt.ylabel('Scores',fontsize=15)
+plt.title('Regression line(train_set)',fontsize=10)
+plt.show()
+
+# **Comparing Actual Score and Predict Scores**
+
+y_test1=list(y_train)
+prediction=list(y_pred)
+df_compare = pd.DataFrame({'Actual':y_test1, 'Result':prediction})
+df_compare
+
+# **Accuracy of Model**
+
+from sklearn import metrics
+metrics.r2_score(y_train,y_pred)
+
+# **Predict score**
+
+predict_score = linreg.predict([[9.25]])
+
+print('predict the score for student 9.25 hours',predict_score)
+
+# **Thank you**
